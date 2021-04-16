@@ -25,6 +25,8 @@ MarkupSafe = "*"
 SQLAlchemy = "*"
 Werkzeug = "*"
 psycopg2 = "*"
+pyjwt = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
