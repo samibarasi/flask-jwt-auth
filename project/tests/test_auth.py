@@ -34,7 +34,7 @@ class TestAuthBlueprint(BaseTestCase):
         """ Test for user registration """
         with self.client:
             # register user
-            resp_register = register_user(self, 'joe@gmail.com', '123456')
+            response = register_user(self, 'joe@gmail.com', '123456')
             
             data = json.loads(response.data.decode())
             
@@ -54,7 +54,7 @@ class TestAuthBlueprint(BaseTestCase):
         db.session.commit()
         with self.client:
             # register user
-            resp_register = register_user(self, 'joe@gmail.com', '123456')
+            response = register_user(self, 'joe@gmail.com', '123456')
             data = json.loads(response.data.decode())
             self.assertTrue(data['status'] == 'fail')
             self.assertTrue(data['message'] == 'User already exists. Please log in.')
@@ -214,6 +214,22 @@ class TestAuthBlueprint(BaseTestCase):
             self.assertTrue(data['status'] == 'fail')
             self.assertTrue(data['message'] == 'Token blacklisted. Please log in again.')
             self.assertEqual(response.status_code, 401)
+
+    def test_user_status_malformed_bearer_token(self):
+        """ Test for user status malformed bearer token """
+        # user registration
+        resp_register = register_user(self, 'joe@gmail.com', '123456')
+        # user status
+        response = self.client.get(
+            '/auth/status',
+            headers=dict(
+                Authorization='Bearer' + json.loads(resp_register.data.decode())['auth_token']
+            )
+        )
+        data = json.loads(response.data.decode())
+        self.assertTrue(data['status'] == 'fail')
+        self.assertTrue(data['message'] == 'Bearer token malformed.')
+        self.assertEqual(response.status_code, 401)
 
 if __name__ == '__main__':
     unittest.main()
