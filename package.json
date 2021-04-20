@@ -1,0 +1,30 @@
+{
+  "name": "flask-jwt-auth",
+  "version": "1.0.0",
+  "description": "Flask JWT Authorization",
+  "main": "index.js",
+  "scripts": {
+    "start": "python manage.py runserver",
+    "prod:uwsgi": "uwsgi --http 0.0.0.0:5000 --cheaper 2 --workers 10 --module wsgi:app --stats :3031 --stats-http",
+    "deploy": "pm2 deploy ecosystem.config.js production",
+    "deploy:setup": "pm2 deploy ecosystem.config.js production setup",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samibarasi/flask-jwt-auth.git"
+  },
+  "keywords": [
+    "flask",
+    "jwt"
+  ], 
+  "author": "@samibarasi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/samibarasi/flask-jwt-auth/issues"
+  },
+  "homepage": "https://github.com/samibarasi/flask-jwt-auth#readme",
+  "dependencies": {
+    "pm2": "^4.5.6"
+  }
+}

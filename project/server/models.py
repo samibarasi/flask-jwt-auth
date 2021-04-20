@@ -14,6 +14,7 @@ class User(db.Model):
     email = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     registered_on = db.Column(db.DateTime, nullable=False)
+    lastlogin_on = db.Column(db.DateTime, nullable=True)
     admin = db.Column(db.Boolean, nullable=False, default=False)
 
     def __init__(self, email, password, admin=False):
@@ -22,6 +23,7 @@ class User(db.Model):
             password, app.config.get('BCRYPT_LOG_ROUNDS')
         ).decode()
         self.registered_on = datetime.datetime.now()
+        self.lastlogin_on = datetime.datetime.now()
         self.admin = admin
 
     def encode_auth_token(self, user_id):
@@ -31,7 +33,7 @@ class User(db.Model):
         """
         try:
             payload = {
-                'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=5),
+                'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, minutes=5),
                 'iat': datetime.datetime.utcnow(),
                 'sub': user_id
             }

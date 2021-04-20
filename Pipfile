@@ -27,6 +27,8 @@ Werkzeug = "*"
 psycopg2 = "*"
 pyjwt = "*"
 python-dotenv = "*"
+uwsgi = "*"
+uwsgitop = "*"
 
 [dev-packages]
 

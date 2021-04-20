@@ -1,5 +1,8 @@
 # project/server/auth/views.py
 
+import datetime
+import time
+
 from flask import Blueprint, request, make_response, jsonify
 from flask.views import MethodView
 
@@ -16,6 +19,13 @@ class RegisterAPI(MethodView):
     def post(self):
         # get the post data
         post_data = request.get_json()
+        print(post_data)
+        if not post_data:
+            responseObject = {
+                'status': 'fail',
+                'message': 'Please provide an email and a password.'
+            }
+            return make_response(jsonify(responseObject)), 401
         # check if user already exists
         user = User.query.filter_by(email=post_data.get('email')).first()
         if not user:
@@ -63,9 +73,13 @@ class LoginAPI(MethodView):
             user = User.query.filter_by(
                 email=post_data.get('email')
             ).first()
+            
             if user and bcrypt.check_password_hash(user.password, post_data.get('password')):
                 auth_token = user.encode_auth_token(user.id)
                 if auth_token:
+                    # update user lastlogin
+                    user.lastlogin_on = datetime.datetime.now()
+                    db.session.commit()
                     responseObject = {
                         'status': 'success',
                         'message': 'Successfully logged in.',
@@ -86,12 +100,24 @@ class LoginAPI(MethodView):
             }
             return make_response(jsonify(responseObject)), 500
 
+class HelloApi(MethodView):
+    """
+    Hello Resource
+    """
+    def get(self):
+        responseObject = {
+            'status': 'success',
+            'message': 'Hello World'
+        }
+        return make_response(jsonify(responseObject)), 200
+
 class UserAPI(MethodView):
     """
     User Resource
     """
     def get(self):
         # get the auth token
+        time.sleep(2)
         auth_header = request.headers.get('Authorization')
         if auth_header:
             try:
@@ -115,7 +141,8 @@ class UserAPI(MethodView):
                         'user_id': user.id,
                         'email': user.email,
                         'admin': user.admin,
-                        'registered_on': user.registered_on
+                        'registered_on': user.registered_on,
+                        'lastlogin_on': user.lastlogin_on
                     }
                 }
                 return make_response(jsonify(responseObject)), 200
@@ -182,6 +209,7 @@ registration_view = RegisterAPI.as_view('register_api')
 login_view = LoginAPI.as_view('login_api')
 user_view = UserAPI.as_view('user_api')
 logout_view = LogoutAPI.as_view('logout_api')
+hello_view = HelloApi.as_view('hello_api')
 
 
 # add Rules for API Endpoints
@@ -204,6 +232,11 @@ auth_blueprint.add_url_rule(
     '/auth/logout',
     view_func=logout_view,
     methods=['POST']
+)
+auth_blueprint.add_url_rule(
+    '/auth/hello',
+    view_func=hello_view,
+    methods=['GET']
 )
 
 
