@@ -14,7 +14,12 @@ module.exports = {
       repo : 'git@github.com:samibarasi/flask-jwt-auth.git',
       path : '/home/ubuntu/flask-jwt-auth',
       'pre-deploy-local': '',
-      'post-deploy' : 'npm install && pm2 reload ecosystem.config.js --env production',
+      'post-deploy' : [
+        'PIPENV_VENV_IN_PROJECT=True pipenv install',
+        'source .venv/bin/activate',
+        'npm install',
+        'pm2 reload ecosystem.config.js --env production'
+      ].join(' && '),
       'pre-setup': ''
     }
   }
