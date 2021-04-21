@@ -6,7 +6,7 @@ import time
 from flask import Blueprint, request, make_response, jsonify
 from flask.views import MethodView
 
-from project.server import bcrypt, db
+from project.server import bcrypt, db, app
 from project.server.models import User, BlackListToken
 
 auth_blueprint = Blueprint('auth', __name__)
@@ -19,7 +19,11 @@ class RegisterAPI(MethodView):
     def post(self):
         # get the post data
         post_data = request.get_json()
-        print(post_data)
+        app.logger.info(post_data)
+        app.logger.warning(post_data)
+        app.logger.debug(post_data)
+        app.logger.error(post_data)
+        app.logger.critical(post_data)
         if not post_data:
             responseObject = {
                 'status': 'fail',

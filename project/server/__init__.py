@@ -2,6 +2,7 @@
 
 import os
 import sys
+from logging.config import dictConfig
 
 from dotenv import load_dotenv
 
@@ -11,11 +12,25 @@ from flask_sqlalchemy import SQLAlchemy
 
 load_dotenv()
 
+dictConfig({
+    'version': 1,
+    'formatters': {'default': {
+        'format': '[%(asctime)s] %(levelname)s in %(module)s: %(message)s',
+    }},
+    'handlers': {'wsgi': {
+        'class': 'logging.StreamHandler',
+        'stream': 'ext://sys.stdout',
+        'formatter': 'default'
+    }},
+    'root': {
+        'level': 'INFO',
+        'handlers': ['wsgi']
+    }
+})
 
-
-print("FLASK_ENV: ", os.getenv('FLASK_ENV'))
 
 app = Flask(__name__)
+
 
 app_settings = os.getenv(
     'APP_SETTINGS',
