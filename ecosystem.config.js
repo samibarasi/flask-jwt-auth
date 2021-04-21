@@ -1,3 +1,7 @@
+const dotenv = require('dotenv');
+
+dotenv.config();
+
 module.exports = {
   apps : [{
     name: 'flask-jwt-auth',
@@ -7,12 +11,12 @@ module.exports = {
 
   deploy : {
     production : {
-      user : 'ubuntu',
-      host : 'ec2-3-250-85-25.eu-west-1.compute.amazonaws.com',
-      key  : '~/Work/AWS/keys/Irland/tutorial.pem',
+      user : process.env.DEPLOY_USER,
+      host : process.env.DEPLOY_HOST,
+      key  : process.env.DEPLOY_KEY,
       ref  : 'origin/main',
       repo : 'git@github.com:samibarasi/flask-jwt-auth.git',
-      path : '/home/ubuntu/flask-jwt-auth',
+      path : process.env.DEPLOY_PATH,
       'pre-deploy-local': '',
       'post-deploy' : [
         'PIPENV_VENV_IN_PROJECT=True pipenv install',

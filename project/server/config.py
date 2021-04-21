@@ -3,11 +3,12 @@
 from dotenv import load_dotenv
 
 import os
-basedir = os.path.abspath(os.path.dirname(__file__))
-postgres_local_base = 'postgresql://postgres:@localhost/'
-database_name = 'flask_jwt_auth'
 
 load_dotenv()
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+postgres_local_base = 'postgresql://postgres:@localhost/'
+database_name = os.getenv('DB_NAME', 'flask_jwt_auth')
 
 class BaseConfig:
     """Base configuration."""

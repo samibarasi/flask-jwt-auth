@@ -26,13 +26,5 @@ app.config.from_object(app_settings)
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
 
-@app.before_first_request
-def before_first_request():
-    app.logger.debug("main debug")
-    app.logger.info("main info")
-    app.logger.warning("main warning")
-    app.logger.error("main error")
-    app.logger.critical("main critical")
-
 from project.server.auth.views import auth_blueprint
 app.register_blueprint(auth_blueprint)
