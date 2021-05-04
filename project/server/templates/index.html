@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    	<title>Python-SocketIO Test</title>
+    	
+</head>
+<body>
+<form id="emit" method="post" action="#">
+	<input id="emit_data" name="emit_data" />
+	<input type="submit" />
+</form>
+<form id="broadcast" method="post" action="#">
+	<input id="broadcast_data" name="broadcast_data">
+	<input type="submit" />
+</form>
+
+<div id="log"></div>
+
+<script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+<script type="text/javascript" charset="utf-8">
+    var socket = io();
+    socket.on('connect', function() {
+        socket.emit('message', 'I\'m connected!');
+    });
+    socket.on('disconnect', function() {
+        socket.emit('message', 'I\'m connected!');
+        $('#log').append('<p>Disconnected!</p>');
+    });
+
+</script>
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function(){
+        socket.on('message', function(msg, callback) {
+            $('#log').append('<p>A Message Received: ' + msg + '</p>');
+            if (callback && typeof callback === 'Function') callback('Hello Socket-IO')
+        });
+        socket.on('my message', function(msg) {
+            $('#log').append('<p>My message Received: ' + msg.data + '</p>');
+        });
+        $('form#emit').submit(function(event) {
+            var value = $('#emit_data').val()
+            if ( value === 'exit' || value === 'bye') {
+                socket.disconnect();
+                return false;
+            } else if (socket.disconnected) {
+                socket.connect();
+            }
+            
+            socket.emit('my message', {data: value});
+            
+            return false;
+        });
+        $('form#broadcast').submit(function(event) {
+            
+            socket.emit('my broadcast message', {data: $('#broadcast_data').val()});
+            
+            return false;
+        });
+    });
+ </script>
+</body>
+</html>

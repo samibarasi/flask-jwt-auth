@@ -1,14 +1,17 @@
 # project/server/__init__.py
-
 import os
 import sys
 from logging.config import dictConfig
 
 from dotenv import load_dotenv
 
-from flask import Flask
+from flask import Flask, render_template
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
+
+from flask_socketio import SocketIO, send, emit
+
+# import eventlet
 
 load_dotenv()
 
@@ -28,9 +31,7 @@ dictConfig({
     }
 })
 
-
 app = Flask(__name__)
-
 
 app_settings = os.getenv(
     'APP_SETTINGS',
@@ -38,8 +39,17 @@ app_settings = os.getenv(
 )
 app.config.from_object(app_settings)
 
+
+socketio = SocketIO(app, async_mode='gevent')
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
 
 from project.server.auth.views import auth_blueprint
 app.register_blueprint(auth_blueprint)
+
+import project.server.ws.events
+
+@app.route('/')
+def hello():
+    return render_template("index.html")
+

@@ -19,11 +19,6 @@ class RegisterAPI(MethodView):
     def post(self):
         # get the post data
         post_data = request.get_json()
-        app.logger.info(post_data)
-        app.logger.warning(post_data)
-        app.logger.debug(post_data)
-        app.logger.error(post_data)
-        app.logger.critical(post_data)
         if not post_data:
             responseObject = {
                 'status': 'fail',
@@ -121,8 +116,8 @@ class UserAPI(MethodView):
     """
     def get(self):
         # get the auth token
-        time.sleep(2)
         auth_header = request.headers.get('Authorization')
+
         if auth_header:
             try:
                 auth_token = auth_header.split(" ")[1]

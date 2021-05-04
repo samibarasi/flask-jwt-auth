@@ -27,8 +27,10 @@ Werkzeug = "*"
 psycopg2 = "*"
 pyjwt = "*"
 python-dotenv = "*"
-uwsgi = "*"
 uwsgitop = "*"
+flask-socketio = "*"
+gevent = "*"
+uwsgi = "*"
 
 [dev-packages]
 

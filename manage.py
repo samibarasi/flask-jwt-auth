@@ -1,6 +1,6 @@
 # manage.py
 
-
+import eventlet
 import os
 import unittest
 import coverage
@@ -19,7 +19,7 @@ COV = coverage.coverage(
 )
 COV.start()
 
-from project.server import app, db, models
+from project.server import app, db, models, socketio
 
 migrate = Migrate(app, db)
 manager = Manager(app)
@@ -67,7 +67,7 @@ def create_db():
 def drop_db():
     """Drops the db tables."""
     db.drop_all()
-
+    
 
 if __name__ == '__main__':
     manager.run()

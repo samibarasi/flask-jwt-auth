@@ -4,8 +4,8 @@
   "description": "Flask JWT Authorization",
   "main": "index.js",
   "scripts": {
-    "start": "python manage.py runserver",
-    "prod:uwsgi": "uwsgi --http 0.0.0.0:5000 --cheaper 2 --workers 10 --module wsgi:app --stats :3031 --stats-http",
+    "start": "python wsgi.py",
+    "prod:uwsgi": "uwsgi --http :5000 --gevent 1000 --http-websockets --master --wsgi-file wsgi.py --callable app",
     "deploy": "pm2 deploy ecosystem.config.js production",
     "deploy:setup": "pm2 deploy ecosystem.config.js production setup",
     "test": "echo \"Error: no test specified\" && exit 1"
