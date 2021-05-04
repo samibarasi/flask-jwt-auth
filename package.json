@@ -17,7 +17,7 @@
   "keywords": [
     "flask",
     "jwt"
-  ], 
+  ],
   "author": "@samibarasi",
   "license": "ISC",
   "bugs": {
@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/samibarasi/flask-jwt-auth#readme",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "pm2": "^4.5.6"
   }
 }
