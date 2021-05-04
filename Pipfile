@@ -26,11 +26,10 @@ SQLAlchemy = "*"
 Werkzeug = "*"
 psycopg2 = "*"
 pyjwt = "*"
-python-dotenv = "*"
-uwsgitop = "*"
 flask-socketio = "*"
 gevent = "*"
-uwsgi = "*"
+python-dotenv = "*"
+gunicorn = "*"
 
 [dev-packages]
 

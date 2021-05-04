@@ -24,7 +24,7 @@ def another_event(data):
 @socketio.on('my broadcast message')
 def another_event(data):
     print('my broadcast message', data)
-    emit('my message', data)
+    emit('my message', data, broadcast=True)
 
 @socketio.on('message')
 def handle_message(message):

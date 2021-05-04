@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "python wsgi.py",
+    "prod:gunicorn": "gunicorn -b :5000 -k gevent -w 1 wsgi:app",
     "prod:uwsgi": "uwsgi --http :5000 --gevent 1000 --http-websockets --master --wsgi-file wsgi.py --callable app",
     "deploy": "pm2 deploy ecosystem.config.js production",
     "deploy:setup": "pm2 deploy ecosystem.config.js production setup",
