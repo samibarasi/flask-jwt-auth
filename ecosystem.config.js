@@ -14,14 +14,13 @@ module.exports = {
       user : process.env.DEPLOY_USER,
       host : process.env.DEPLOY_HOST,
       key  : process.env.DEPLOY_KEY,
-      ref  : 'origin/main',
+      ref  : 'origin/socketio',
       repo : 'git@github.com:samibarasi/flask-jwt-auth.git',
       path : process.env.DEPLOY_PATH,
       'pre-deploy-local': '',
       'post-deploy' : [
         'PIPENV_VENV_IN_PROJECT=True pipenv install',
         'source .venv/bin/activate',
-        'ls -l',
         'npm install',
         'pm2 reload ecosystem.config.js --env production'
       ].join(' && '),
