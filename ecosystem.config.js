@@ -21,7 +21,7 @@ module.exports = {
       'post-deploy' : [
         'PIPENV_VENV_IN_PROJECT=True pipenv install',
         'source .venv/bin/activate',
-        'rm -rf node_modules',
+        'ls -l',
         'npm install',
         'pm2 reload ecosystem.config.js --env production'
       ].join(' && '),
