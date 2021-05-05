@@ -3,7 +3,7 @@ import os
 import sys
 from logging.config import dictConfig
 
-#from dotenv import load_dotenv
+from dotenv import load_dotenv
 
 from flask import Flask, render_template
 from flask_bcrypt import Bcrypt
@@ -13,7 +13,7 @@ from flask_socketio import SocketIO, send, emit
 
 # import eventlet
 
-#load_dotenv()
+load_dotenv()
 
 dictConfig({
     'version': 1,
