@@ -5,7 +5,7 @@ dotenv.config();
 module.exports = {
   apps : [{
     name: 'flask-jwt-auth',
-    script: 'npm run prod:uwsgi',
+    script: 'npm run prod:gunicorn',
     watch: true,
   }],
 
