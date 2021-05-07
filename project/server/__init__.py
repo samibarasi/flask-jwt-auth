@@ -10,6 +10,7 @@ from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 
 from flask_socketio import SocketIO, send, emit
+from flask_cors import CORS
 
 # import eventlet
 
@@ -33,6 +34,8 @@ dictConfig({
 
 app = Flask(__name__)
 
+CORS(app)
+
 app_settings = os.getenv(
     'APP_SETTINGS',
     'project.server.config.DevelopmentConfig'
@@ -40,7 +43,7 @@ app_settings = os.getenv(
 app.config.from_object(app_settings)
 
 
-socketio = SocketIO(app, async_mode='gevent')
+socketio = SocketIO(app, async_mode='gevent', cors_allowed_origins="*")
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
 

@@ -30,6 +30,7 @@ flask-socketio = "*"
 gevent = "*"
 python-dotenv = "*"
 gunicorn = "*"
+flask-cors = "*"
 
 [dev-packages]
 
